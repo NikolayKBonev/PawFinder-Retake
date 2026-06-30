@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawFinder</title>
+    <link rel="stylesheet" type="text/css" href="/css/commons.css">
+    <link rel="stylesheet" type="text/css" href="/css/pets-for-adoption.css">
+    <script src="https://kit.fontawesome.com/f4eab0c21e.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header th:replace="~{fragments/commons::header}"></header>
+
+<section class="header-available-pets">
+    <h1>Available pets for adoption</h1>
+    <p class="available-pets-count" th:text="${pets.size() + ' pets'}"></p>
+</section>
+
+<article class="available-pets">
+    <section th:each="pet : ${pets}" class="pet">
+        <a th:href="@{'/pets-for-adoption/' + ${pet.id} + '/info'}"><img th:src="${pet.picture}" alt="Pet picture"></a>
+        <div class="name-likes">
+            <a th:href="@{'/pets-for-adoption/' + ${pet.id} + '/info'}"><p th:text="${pet.name}"></p></a>
+        </div>
+    </section>
+    <div th:if="${user}">
+        <form class="add-pet" th:action="@{/pets-for-adoption/add-pet}" th:method="GET" th:if="${user.role.name == 'ADMIN'}">
+            <button class="new-pet">ADD NEW PET</button>
+        </form>
+    </div>
+</article>
+<div class="same-background" th:replace="~{fragments/commons::footer}"></div>
+</body>
+</html>
